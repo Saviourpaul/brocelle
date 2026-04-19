@@ -2,9 +2,6 @@
 const BLOB_TOKEN = 'vercel_blob_rw_98Lzec9eVAKHcCDc_0IFC8F4OqBJbejdcrgNcWXEbAsQuJr';
 const DATA_FILENAME = 'borcelle-products.json';
 
-/**
- * Vercel Blob Service
- */
 export const blobService = {
     async upload(pathname, body, options = {}) {
         const response = await fetch(`https://blob.vercel-storage.com/${pathname}`, {
@@ -12,7 +9,8 @@ export const blobService = {
             body: body,
             headers: {
                 'Authorization': `Bearer ${BLOB_TOKEN}`,
-                'x-api-version': '7', 
+                'x-api-version': '7',
+                'x-add-random-suffix': '0', // Disable random suffix for data file
                 ...options.headers
             },
         });
@@ -43,16 +41,18 @@ export const blobService = {
 
     async saveProducts(products) {
         return await this.upload(DATA_FILENAME, JSON.stringify(products), {
-            headers: { 'Cache-Control': 'no-cache', 'Content-Type': 'application/json' }
+            headers: { 
+                'Cache-Control': 'no-cache', 
+                'Content-Type': 'application/json'
+            }
         });
     },
 
     async fetchProducts() {
         try {
             const { blobs } = await this.list();
-            const dataBlob = blobs
-                .filter(b => b.pathname === DATA_FILENAME)
-                .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))[0];
+            // Look for the specific filename
+            const dataBlob = blobs.find(b => b.pathname === DATA_FILENAME);
 
             if (!dataBlob) return [];
 
@@ -61,7 +61,7 @@ export const blobService = {
             return await response.json();
         } catch (e) {
             console.error("Blob Service Error:", e);
-            throw e; // Rethrow to let the UI handle it
+            return [];
         }
     }
 };
