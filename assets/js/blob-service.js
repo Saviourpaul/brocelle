@@ -1,55 +1,62 @@
 
 /**
- * Vercel Blob Service Bridge
- * Communicates with /api/products for secure storage access
+ * Vercel Blob Service Secure Bridge
+ * Resolves "Failed to fetch" errors by using server-side storage access
  */
 export const blobService = {
     /**
-     * Uploads an image file to Vercel Blob via the API bridge
-     * In a browser environment, we still use direct blob upload for files, 
-     * BUT we use a client token or our secure serverless bridge.
+     * Helper to get API URL
      */
-    async upload(pathname, body) {
-        // We'll use the Direct Upload API which is better for client-side files
-        // But for this project, let's keep it simple and just use the secure bridge for metadata
-        // For actual files, we can use the Direct API or our bridge.
-        
-        // Let's use our API for JSON and a direct PUT for images (requires public RW token)
-        // Note: Direct PUT from browser with RW token might still hit CORS, 
-        // so we'll fallback to a base64 or simpler approach if needed.
-        
-        const response = await fetch(`https://blob.vercel-storage.com/${pathname}`, {
-            method: 'PUT',
-            body: body,
-            headers: {
-                'Authorization': `Bearer vercel_blob_rw_98Lzec9eVAKHcCDc_0IFC8F4OqBJbejdcrgNcWXEbAsQuJr`,
-                'x-api-version': '7',
-            },
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Upload failed');
+    getApiUrl() {
+        // Use relative path if on Vercel domain
+        if (!window.location.origin.includes('localhost') && !window.location.origin.includes('127.0.0.1')) {
+            return '/api/products';
         }
-
-        return await response.json();
+        // Force Vercel URL if working locally to bypass local server lack of Node.js support
+        return 'https://brocelle.vercel.app/api/products';
     },
 
     /**
-     * Saves the products JSON list via our secure API bridge
+     * Uploads an image file by converting to base64 and sending to the API bridge
+     */
+    async upload(filename, file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                try {
+                    const response = await fetch(this.getApiUrl(), {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            type: 'image',
+                            data: reader.result,
+                            filename: `${Date.now()}_${filename}`,
+                            contentType: file.type
+                        }),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (!response.ok) throw new Error('Upload via bridge failed');
+                    resolve(await response.json());
+                } catch (e) {
+                    reject(e);
+                }
+            };
+            reader.onerror = error => reject(error);
+        });
+    },
+
+    /**
+     * Saves the products JSON list via the secure API bridge
      */
     async saveProducts(products) {
-        // Determine base URL (handle local vs production)
-        const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') 
-            ? 'https://brocelle.vercel.app' // Force production URL if local fails
-            : ''; 
-
-        const response = await fetch(`${baseUrl}/api/products`, {
+        const response = await fetch(this.getApiUrl(), {
             method: 'POST',
-            body: JSON.stringify(products),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: JSON.stringify({
+                type: 'json',
+                data: products
+            }),
+            headers: { 'Content-Type': 'application/json' }
         });
 
         if (!response.ok) throw new Error('Failed to save data');
@@ -57,20 +64,16 @@ export const blobService = {
     },
 
     /**
-     * Fetches products from the cloud via our secure API bridge
+     * Fetches products via the secure API bridge
      */
     async fetchProducts() {
-        const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') 
-            ? 'https://brocelle.vercel.app' 
-            : ''; 
-
         try {
-            const response = await fetch(`${baseUrl}/api/products`);
+            const response = await fetch(this.getApiUrl());
             if (!response.ok) return [];
             return await response.json();
         } catch (e) {
-            console.error("Cloud Bridge Error:", e);
-            return [];
+            console.error("Cloud Bridge Fetch Error:", e);
+            throw e;
         }
     }
 };

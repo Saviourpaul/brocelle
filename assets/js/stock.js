@@ -15,7 +15,7 @@ async function loadProducts() {
         productList.innerHTML = `
             <div class="col-12 text-center py-5">
                 <div class="spinner-border text-primary mb-3"></div>
-                <p class="text-muted">Connecting to Vercel Blob Storage...</p>
+                <p class="text-muted">Connecting to Vercel Cloud Storage...</p>
             </div>`;
         
         products = await blobService.fetchProducts();
@@ -50,13 +50,11 @@ async function loadProducts() {
         productList.innerHTML = `
             <div class="col-12 text-center py-5">
                 <i class="mdi mdi-cloud-off-outline display-4 text-danger mb-3"></i>
-                <h3 class="text-danger">Cloud Sync Failed</h3>
-                <p class="text-muted">${error.message}</p>
-                <div class="alert alert-warning d-inline-block mt-3">
-                    <strong>Note:</strong> If you are opening this as a local file (file://), browser security may block Cloud Storage. Please use a local server like Live Server or XAMPP to host the files.
+                <h3 class="text-danger">Cloud Storage Unavailable</h3>
+                <p class="text-muted">The secure API bridge is still deploying or unreachable.</p>
+                <div class="alert alert-info d-inline-block mt-3">
+                    <strong>Note:</strong> Ensure you are testing on your Vercel URL: <code>https://brocelle.vercel.app</code>
                 </div>
-                <br>
-                <button onclick="location.reload()" class="btn btn-outline-primary mt-3">Try Again</button>
             </div>`;
     }
 }
@@ -113,20 +111,10 @@ function renderProduct(id, product) {
     });
 
     col.querySelector('.delete-btn').addEventListener('click', async (e) => {
-        if (confirm('Are you sure you want to delete this product from the cloud?')) {
-            const originalText = e.currentTarget.innerHTML;
-            e.currentTarget.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
-            e.currentTarget.disabled = true;
-
+        if (confirm('Are you sure you want to delete this product?')) {
             products = products.filter(p => p.id !== id);
-            try {
-                await blobService.saveProducts(products);
-                renderAll();
-            } catch (err) {
-                alert("Delete failed: " + err.message);
-                e.currentTarget.innerHTML = originalText;
-                e.currentTarget.disabled = false;
-            }
+            await blobService.saveProducts(products);
+            renderAll();
         }
     });
 }
@@ -143,15 +131,15 @@ if (addProductForm) {
             submitBtn.disabled = true;
             document.getElementById('uploadProgress').style.display = 'block';
             const progressBar = document.querySelector('#uploadProgress .progress-bar');
-            progressBar.style.width = '20%';
+            progressBar.style.width = '30%';
 
             let imageUrl = 'assets/img/product/product1.png';
 
             if (file) {
-                progressBar.style.width = '50%';
-                const blob = await blobService.upload(`uploads/${Date.now()}_${file.name}`, file);
+                progressBar.style.width = '60%';
+                const blob = await blobService.upload(file.name, file);
                 imageUrl = blob.url;
-                progressBar.style.width = '80%';
+                progressBar.style.width = '90%';
             }
 
             const newProduct = {
@@ -184,33 +172,18 @@ if (addProductForm) {
 if (editProductForm) {
     editProductForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = editProductForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerText;
-        
         const id = document.getElementById('editId').value;
         const price = document.getElementById('editPrice').value;
         const status = document.getElementById('editStatus').value;
 
         const index = products.findIndex(p => p.id === id);
         if (index !== -1) {
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Updating Cloud...';
-            
-            const oldData = { ...products[index] };
             products[index].price = parseFloat(price);
             products[index].status = status;
             
-            try {
-                await blobService.saveProducts(products);
-                bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
-                renderAll();
-            } catch (err) {
-                alert("Update failed: " + err.message);
-                products[index] = oldData; // rollback
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = originalText;
-            }
+            await blobService.saveProducts(products);
+            bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+            renderAll();
         }
     });
 }

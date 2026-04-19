@@ -1,9 +1,9 @@
-import { put, list, del } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 
 const DATA_FILENAME = 'borcelle-products.json';
 
 export default async function handler(request, response) {
-    // Add CORS headers to allow local development (Live Server) to talk to the API
+    // Enable CORS
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -12,10 +12,13 @@ export default async function handler(request, response) {
         return response.status(200).end();
     }
 
+    // Ensure we have the token (Vercel automatically provides this if connected)
+    const token = process.env.BLOB_READ_WRITE_TOKEN || 'vercel_blob_rw_98Lzec9eVAKHcCDc_0IFC8F4OqBJbejdcrgNcWXEbAsQuJr';
+
     try {
         // GET: Fetch products list
         if (request.method === 'GET') {
-            const { blobs } = await list();
+            const { blobs } = await list({ token });
             const dataBlob = blobs.find(b => b.pathname === DATA_FILENAME);
             
             if (!dataBlob) return response.status(200).json([]);
@@ -25,29 +28,39 @@ export default async function handler(request, response) {
             return response.status(200).json(data);
         }
 
-        // POST: Save products JSON or Upload Image
+        // POST: Save products or Upload Image
         if (request.method === 'POST') {
-            const body = request.body;
+            const { type, data, filename, contentType } = request.body;
             
-            // If body is an array, we're saving the full products list JSON
-            if (Array.isArray(body)) {
-                const blob = await put(DATA_FILENAME, JSON.stringify(body), {
+            // Save full products JSON
+            if (type === 'json') {
+                const blob = await put(DATA_FILENAME, JSON.stringify(data), {
+                    token,
                     access: 'public',
-                    addRandomSuffix: false, // Keep the same URL
+                    addRandomSuffix: false,
                     contentType: 'application/json'
                 });
                 return response.status(200).json(blob);
             }
 
-            // If it's single product upload (for future use or simpler logic)
-            // Note: Since we are using browser fetch with multipart/form-data for images,
-            // we will stick to a simpler JSON-based sync for the products file.
-            return response.status(400).json({ message: 'Invalid data format' });
+            // Upload Image (expecting base64 data)
+            if (type === 'image' && data) {
+                // Remove the data:image/xxx;base64, prefix
+                const base64Data = data.split(',')[1];
+                const buffer = Buffer.from(base64Data, 'base64');
+                
+                const blob = await put(`uploads/${filename}`, buffer, {
+                    token,
+                    access: 'public',
+                    contentType: contentType || 'image/png'
+                });
+                return response.status(200).json(blob);
+            }
         }
 
         return response.status(405).json({ message: 'Method not allowed' });
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('Vercel API Error:', error);
         return response.status(500).json({ error: error.message });
     }
 }
