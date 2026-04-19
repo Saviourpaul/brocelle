@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Stock Management | Aquiry Admin &amp; Dashboard Template </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,">
+    <meta content="Admin & Dashboard Template" name="description">
+    <meta content="Codebucks" name="author">
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo-sm.png">
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!--icons css-->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    
+    <style>
+        .product-card { transition: transform 0.3s ease; }
+        .product-card:hover { transform: translateY(-4px); }
+        .product-img-wrapper { position: relative; width: 100%; height: 220px; overflow: hidden; border-top-left-radius: .375rem; border-top-right-radius: .375rem; background: #f8f9fa; display: flex; align-items: center; justify-content: center; }
+        .product-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.1); }
+        .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3em; }
+    </style>
+</head>
+
+<body>
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="navbar-logo-box">
+                    <a href="Dashboard.html" class="logo logo-dark">
+                        <span class="logo-sm"><img src="assets/images/logo-sm.png" alt="" height="22"></span>
+                        <span class="logo-lg"><img src="assets/images/logo-dark.png" alt="" height="20"></span>
+                    </a>
+                    <button type="button" class="btn btn-icon top-icon sidebar-btn" id="sidebar-btn"><i class="mdi mdi-menu-open align-middle fs-17"></i></button>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 ms-auto px-4">
+                    <div class="dropdown d-inline-block border-start admin-user-info ps-3">
+                        <button type="button" class="btn btn-sm p-0" id="page-header-user-dropdown" data-bs-toggle="dropdown">
+                            <span class="avatar avatar-xs p-1 d-inline-block">
+                                <img src="assets/images/users/avatar-9.png" alt="" class="img-fluid">
+                            </span>
+                            <span class="d-none d-xl-inline-block ms-1 fw-semibold fs-14 admin-name" id="loggedUserFName"></span>
+                            <i class="mdi mdi-chevron-down align-middle fs-16"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated overflow-hidden py-0">
+                            <div class="card mb-0">
+                                <div class="card-header">
+                                    <h3 class="rich-list-title fs-13 mb-1"><span id="loggedUserFName"></span> <span id="loggedUserLName"></span></h3>
+                                    <div id="loggedUserEmail" class="text-muted"></div>
+                                </div>
+                                <button id="logout" class="card-footer card-footer-bordered rounded-0 border-top text-end w-100 btn btn-link">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="sidebar-left">
+            <div class="sidebar-slide h-100" data-simplebar>
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="left-menu list-unstyled" id="side-menu">
+                        <li>
+                            <a href="Dashboard.html" class="">
+                                <i data-eva="compass-outline"></i>
+                                <span>Dashboard</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="items.html" class="active">
+                                <i data-eva="activity-outline"></i>
+                                <span>items</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="pos.html" class="">
+                                <i data-eva="droplet-outline"></i>
+                                <span>pos</span>
+                            </a>
+                        </li>
+                         <li>
+                            <a href="sales-report.html" class="">
+                                <i data-eva="trending-up-outline"></i>
+                                <span>sales Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="suppliers.html" class="">
+                                <i data-eva="layers-outline"></i>
+                                <span>Suppliers</span>
+                            </a>
+                        </li>
+                      
+                        <li class="menu-title">General</li>
+                        <li>
+                            <a href="javascript: void(0);" class="">
+                                <i data-eva="settings-2-outline"></i>
+                                <span>settings</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="">
+                                <i data-eva="bar-chart-outline"></i>
+                                <span>Help</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="">
+                                <i data-eva="funnel-outline"></i>
+                                <span>Privacy Policy</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Stock Management</h4>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="mdi mdi-plus me-1"></i> Add New Product
+                        </button>
+                    </div>
+
+                    <div id="product-list" class="row">
+                        <!-- Products will be dynamically loaded here -->
+                        <div class="col-12 text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row"><div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> © Aquiry.</div></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addProductForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" id="newName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea id="newDesc" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" id="newPrice" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock Status</label>
+                            <select id="newStatus" class="form-select">
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Image</label>
+                            <input type="file" id="newImage" class="form-control" accept="image/*">
+                            <div id="uploadProgress" class="progress mt-2" style="display:none; height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="saveProductBtn" class="btn btn-primary">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Price/Status Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editProductForm">
+                    <input type="hidden" id="editId">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" id="editPrice" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock Status</label>
+                            <select id="editStatus" class="form-select">
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script type="module" src="../assets/js/stock.js"></script>
+    <script type="module" src="../assets/js/Dashboard.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/eva-icons/eva.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

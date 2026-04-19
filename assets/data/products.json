@@ -1,0 +1,18 @@
+[
+    { "id": "1", "name": "Organic Berries", "price": 12.00, "imageUrl": "assets/img/product/product1.png", "status": "In Stock", "description": "Freshly picked organic berries.", "createdAt": "2026-04-19T00:00:00.000Z" },
+    { "id": "2", "name": "Red Tomatoes", "price": 8.50, "imageUrl": "assets/img/product/product2.png", "status": "In Stock", "description": "Sun-ripened organic tomatoes.", "createdAt": "2026-04-19T00:00:00.001Z" },
+    { "id": "3", "name": "Fresh Sea Bream", "price": 25.00, "imageUrl": "assets/img/product/product3.png", "status": "In Stock", "description": "Freshly caught organic sea bream.", "createdAt": "2026-04-19T00:00:00.002Z" },
+    { "id": "4", "name": "Organic Onions", "price": 5.00, "imageUrl": "assets/img/product/product4.png", "status": "In Stock", "description": "Farm-fresh organic onions.", "createdAt": "2026-04-19T00:00:00.003Z" },
+    { "id": "5", "name": "Chili Peppers", "price": 6.20, "imageUrl": "assets/img/product/product5.png", "status": "Low Stock", "description": "Hot and spicy organic chili.", "createdAt": "2026-04-19T00:00:00.004Z" },
+    { "id": "6", "name": "Green Bell Pepper", "price": 4.80, "imageUrl": "assets/img/product/product6.png", "status": "In Stock", "description": "Crunchy green bell peppers.", "createdAt": "2026-04-19T00:00:00.005Z" },
+    { "id": "7", "name": "Spinach Bunches", "price": 3.50, "imageUrl": "assets/img/product/product7.png", "status": "In Stock", "description": "Organic nutrient-rich spinach.", "createdAt": "2026-04-19T00:00:00.006Z" },
+    { "id": "8", "name": "Green Papaya", "price": 15.00, "imageUrl": "assets/img/product/product8.png", "status": "In Stock", "description": "Fresh unripe papaya for salads.", "createdAt": "2026-04-19T00:00:00.007Z" },
+    { "id": "9", "name": "Organic Carrots", "price": 4.00, "imageUrl": "assets/img/product/product9.png", "status": "In Stock", "description": "Sweet and crunchy organic carrots.", "createdAt": "2026-04-19T00:00:00.008Z" },
+    { "id": "10", "name": "Category Pack - Fruits", "price": 45.00, "imageUrl": "assets/img/product/categories1.png", "status": "In Stock", "description": "Bulk pack of assorted fruits.", "createdAt": "2026-04-19T00:00:00.009Z" },
+    { "id": "11", "name": "Vegetable Basket", "price": 38.00, "imageUrl": "assets/img/product/categories2.png", "status": "In Stock", "description": "Mixed basket of seasonal vegetables.", "createdAt": "2026-04-19T00:00:00.010Z" },
+    { "id": "12", "name": "Bakery Selection", "price": 22.00, "imageUrl": "assets/img/product/categories3.png", "status": "In Stock", "description": "Freshly baked organic breads.", "createdAt": "2026-04-19T00:00:00.011Z" },
+    { "id": "13", "name": "Premium Fruit Box", "price": 65.00, "imageUrl": "assets/img/product/big-product1.jpg", "status": "In Stock", "description": "Large selection of premium organic fruits.", "createdAt": "2026-04-19T00:00:00.012Z" },
+    { "id": "14", "name": "Gourmet Veggie Box", "price": 55.00, "imageUrl": "assets/img/product/big-product2.jpg", "status": "In Stock", "description": "Curated box of gourmet organic vegetables.", "createdAt": "2026-04-19T00:00:00.013Z" },
+    { "id": "15", "name": "Whole Organic Salmon", "price": 85.00, "imageUrl": "assets/img/product/big-product3.jpg", "status": "Low Stock", "description": "Freshly caught whole organic salmon.", "createdAt": "2026-04-19T00:00:00.014Z" },
+    { "id": "16", "name": "Artisan Bread Pack", "price": 30.00, "imageUrl": "assets/img/product/big-product4.jpg", "status": "In Stock", "description": "Assorted artisan breads and pastries.", "createdAt": "2026-04-19T00:00:00.015Z" }
+]

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>POS | Aquiry Admin &amp; Dashboard Template </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,">
+    <meta content="Admin & Dashboard Template" name="description">
+    <meta content="Codebucks" name="author">
+    
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/logo-sm.png">
+      <!-- select2 -->
+    <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Simplebar Css -->
+    <link rel="stylesheet" href="assets/libs/simplebar/simplebar.min.css">
+    
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    
+    <!--icons css-->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <script type="module" src="../assets/js/Dashboard.js"></script>
+
+</head>
+
+<body>
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+    <!-- Start topbar -->
+    <header id="page-topbar">
+        <div class="navbar-header">
+    
+            <!-- Start Navbar-Brand -->
+            <div class="navbar-logo-box">
+                <a href="Dashboard.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.png" alt="logo-sm-dark" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
+                    </span>
+                </a>
+                <a href="Dashboard.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.png" alt="logo-sm-light" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-light.png" alt="logo-light" height="20">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-icon top-icon sidebar-btn" id="sidebar-btn" aria-label="Toggle navigation"><i class="mdi mdi-menu-open align-middle fs-17"></i></button>
+            </div>
+    
+            <!-- Start Profile -->
+            <div class="d-flex align-items-center gap-3 ms-auto px-4">
+                <div class="dropdown d-inline-block border-start admin-user-info ps-3">
+                    <button type="button" class="btn btn-sm p-0" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="avatar avatar-xs p-1 d-inline-block">
+                            <img src="assets/images/users/avatar-9.png" alt="Header Avatar" class="img-fluid">
+                        </span>
+                        <span class="d-none d-xl-inline-block ms-1 fw-semibold fs-14 admin-name" id="loggedUserFName"></span>
+                        <i class="mdi mdi-chevron-down align-middle fs-16 d-none d-xl-inline-block"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated overflow-hidden py-0">
+                        <div class="card mb-0">
+                            <div class="card-header">
+                                <h3 class="rich-list-title fs-13 mb-1"><span id="loggedUserFName"></span> <span id="loggedUserLName"></span></h3>
+                                <div id="loggedUserEmail" class="text-muted"></div>
+                            </div>
+                            <button id="logout" class="card-footer card-footer-bordered rounded-0 border-top text-end w-100 btn btn-link">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="sidebar-left">
+        <div class="sidebar-slide h-100" data-simplebar>
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="left-menu list-unstyled" id="side-menu">
+                    <li>
+                        <a href="Dashboard.html" class="">
+                            <i data-eva="compass-outline"></i>
+                            <span>Dashboard</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="items.html" class="">
+                            <i data-eva="activity-outline"></i>
+                            <span>items</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="pos.html" class="active">
+                            <i data-eva="droplet-outline"></i>
+                            <span>pos</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="sales-report.html" class="">
+                            <i data-eva="trending-up-outline"></i>
+                            <span>sales Report</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="suppliers.html" class="">
+                            <i data-eva="layers-outline"></i>
+                            <span>Suppliers</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-title">General</li>
+                    <li>
+                        <a href="javascript: void(0);" class="">
+                            <i data-eva="settings-2-outline"></i>
+                            <span>settings</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);" class="">
+                            <i data-eva="bar-chart-outline"></i>
+                            <span>Help</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);" class="">
+                            <i data-eva="funnel-outline"></i>
+                            <span>Privacy Policy</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Point of Sale (POS)</h4>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">POS System Placeholder</h5>
+                                <p class="text-muted">This page is currently being implemented.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row"><div class="col-sm-6"><script>document.write(new Date().getFullYear())</script> © Aquiry.</div></div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="module" src="../assets/js/Dashboard.js"></script>
+<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/libs/jquery/jquery.min.js"></script>
+<script src="assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/eva-icons/eva.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
