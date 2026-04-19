@@ -1,0 +1,59 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+.bundle/
+public/
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# PHPStorm
+/.phpstorm.meta.php
+
+# Composer dependencies
+vendor/
+
+# XAMPP / local development
+*.log
+
+# Misc
+npm-debug.log*
+yarn-debug.log*
+package-lock.json
+yarn.lock
+
+# Ignore compiled assets if generated locally
+*.css.map
+*.js.map
